@@ -12,7 +12,7 @@ const App = () => {
   if (isLoading) return <LoadingScreen />;
 
   return (
-    <div>
+    <div >
       <Routes>
         <Route path="/" element={authUser ? <Home /> : <Navigate to="/login" />} />
         <Route path="/signup" element={!authUser ? <SignupPage /> : <Navigate to="/" />} />

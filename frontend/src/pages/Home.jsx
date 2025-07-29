@@ -10,7 +10,7 @@ const Home = () => {
 
   const [todo, setTodo] = useState("");
   const [confettiTrigger, setConfettiTrigger] = useState(0);
-  
+
   // Web Audio API refs
   const audioContextRef = useRef(null);
   const audioBufferRef = useRef(null);
@@ -22,15 +22,14 @@ const Home = () => {
         const AudioContext = window.AudioContext;
         audioContextRef.current = new AudioContext();
         const response = await fetch("/sounds/added.mp3");
-        
+
         if (!response.ok) {
           throw new Error(`Failed to fetch audio: ${response.status}`);
         }
-        
+
         const arrayBuffer = await response.arrayBuffer();
         audioBufferRef.current = await audioContextRef.current.decodeAudioData(arrayBuffer);
         setAudioReady(true);
-        
       } catch (error) {
         console.error("❌ Failed to initialize audio:", error);
         setAudioReady(false);
@@ -54,11 +53,11 @@ const Home = () => {
 
     try {
       console.log("🎵 Playing sound instantly...", Date.now());
-      
+
       const source = audioContextRef.current.createBufferSource();
       source.buffer = audioBufferRef.current;
       source.connect(audioContextRef.current.destination);
-      source.start(0); 
+      source.start(0);
       console.log("🎵 Sound started!", Date.now());
     } catch (error) {
       console.error("❌ Failed to play audio:", error);
@@ -67,7 +66,7 @@ const Home = () => {
 
   const handleAddTodo = (e) => {
     e.preventDefault();
-    playAudio();  
+    playAudio();
     const todoText = todo;
     setTodo("");
     addTodoMutate({ title: todoText });
@@ -78,13 +77,12 @@ const Home = () => {
   };
 
   return (
-    <div className=" bg-base-200 py-8 ">
+    <div className=" bg-base-200 py-8 min-h-[calc(100vh-64px)] ">
       <div className="max-w-3xl mx-auto bg-base-100/80 backdrop-blur-sm rounded-xl shadow-2xl p-8 transform hover:shadow-2xl transition-all duration-300 shadow-secondary/50">
-
         <h1 className="text-4xl font-bold text-center mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent p-4">
           Task Manager
-          <span className={`ml-2 text-sm ${audioReady ? 'text-green-500' : 'text-red-500'}`}>
-            {audioReady ? '🔊' : '🔇'}
+          <span className={`ml-2 text-sm ${audioReady ? "text-green-500" : "text-red-500"}`}>
+            {audioReady ? "🔊" : "🔇"}
           </span>
         </h1>
         <p className="text-center text-base-content/60 mb-8 font-light">
