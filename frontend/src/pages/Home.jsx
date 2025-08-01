@@ -3,9 +3,13 @@ import ConfettiEffect from "../components/Confetti";
 import TodoItem from "../components/TodoItem";
 import useFetchTodo from "../hooks/todo/useFetchTodo";
 import useAddTodo from "../hooks/todo/useAddTodo";
+import { motion, AnimatePresence } from "framer-motion";
+import useAuthUser from "../hooks/auth/useAuth";
 
 const Home = () => {
   const { data } = useFetchTodo();
+  const { authUser } = useAuthUser();
+
   const { addTodoMutate } = useAddTodo();
 
   const [todo, setTodo] = useState("");
@@ -14,7 +18,16 @@ const Home = () => {
   // Web Audio API refs
   const audioContextRef = useRef(null);
   const audioBufferRef = useRef(null);
+
   const [audioReady, setAudioReady] = useState(false);
+
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  useEffect(() => {
+    if (data?.todos.length > 0) {
+      setIsInitialLoad(false);
+    }
+  }, [data?.todos]);
 
   useEffect(() => {
     const initializeAudio = async () => {
@@ -78,45 +91,98 @@ const Home = () => {
 
   return (
     <div className=" bg-base-200 py-8 min-h-[calc(100vh-64px)] ">
-      <div className="max-w-3xl mx-auto bg-base-100/80 backdrop-blur-sm rounded-xl shadow-2xl p-8 transform hover:shadow-2xl transition-all duration-300 shadow-secondary/50">
-        <h1 className="text-4xl font-bold text-center mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent p-4">
+      <div className="max-w-3xl mx-auto bg-base-300 backdrop-blur-sm rounded-xl shadow-2xl p-8 transform  transition-all duration-300 shadow-secondary/50">
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="text-5xl font-bold text-center mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent p-4 dyna-puff"
+        >
           Task Manager
           <span className={`ml-2 text-sm ${audioReady ? "text-green-500" : "text-red-500"}`}>
             {audioReady ? "🔊" : "🔇"}
           </span>
-        </h1>
-        <p className="text-center text-base-content/60 mb-8 font-light">
-          Organize your work efficiently
+        </motion.h1>
+        <p className="text-center mb-8">
+          {data?.todos.length === 0 ? (
+            <>
+              Way to go, <span className="text-primary font-bold">{authUser?.fullName}</span>! All
+              tasks conquered! ✨
+            </>
+          ) : (
+            <>
+              Time to conquer your day,{" "}
+              <span className="text-primary font-bold">{authUser?.fullName}</span>! 🎯🔥💪🏻
+            </>
+          )}
         </p>
 
-        <form onSubmit={handleAddTodo} className="flex gap-2 mb-8 group">
-          <div className="flex-1 relative">
+        <form onSubmit={handleAddTodo} className="flex gap-2 mb-8">
+          <motion.div
+            className="flex-1 relative"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          >
             <input
               type="text"
               value={todo}
               onChange={(e) => setTodo(e.target.value)}
               placeholder="What would you like to accomplish?"
-              className="input input-bordered w-full pr-12 transition-all duration-300 focus:input-primary"
-              autoFocus
+              className="input input-bordered w-full pr-12 focus:input-primary"
             />
-          </div>
-          <button type="submit" className="btn btn-primary transition-all duration-300">
+          </motion.div>
+
+          <motion.button
+            type="submit"
+            className="btn btn-primary"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 15,
+              delay: 0.1,
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
             Add Task
-          </button>
+          </motion.button>
         </form>
 
-        <div className="dyna-puff text-3xl font-bold text-secondary text-center pb-4">
-          Current Tasks
-        </div>
-
         <div className="bg-base-200/50 p-6 rounded-xl space-y-3">
-          {data?.todos.length === 0 ? (
-            <p className="text-center text-xl font-bold">No tasks</p>
-          ) : (
-            data?.todos.map((todo) => (
-              <TodoItem key={todo._id} todo={todo} triggerConfetti={triggerConfetti} />
-            ))
-          )}
+          <AnimatePresence mode="popLayout">
+            {data?.todos.length === 0 ? (
+              <p className="text-center text-xl font-bold">No tasks</p>
+            ) : (
+              data?.todos.map((todo, index) => (
+                <motion.div
+                  key={todo._id}
+                  layout
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    transition: {
+                      type: "easeInOut",
+                      duration: 1,
+                      delay: isInitialLoad ? index * 0.3 : 0,
+                    },
+                  }}
+                  exit={{
+                    opacity: 0,
+                    y: 90,
+                    scale: 1,
+                    transition: { duration: 0.5 },
+                  }}
+                >
+                  <TodoItem key={todo._id} todo={todo} triggerConfetti={triggerConfetti} />
+                </motion.div>
+              ))
+            )}
+          </AnimatePresence>
         </div>
       </div>
 

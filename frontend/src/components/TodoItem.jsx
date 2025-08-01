@@ -29,7 +29,7 @@ const TodoItem = ({ todo, triggerConfetti }) => {
   };
 
   return (
-    <div className="flex items-center justify-between gap-3 w-full bg-gray-800 px-4 py-1 rounded-2xl">
+    <div className="flex items-center justify-between gap-3 w-full bg-base-100/90 px-4 py-1 rounded-2xl">
       <div className="flex space-x-3 min-w-0 max-w-full overflow-hidden">
         <input
           type="checkbox"
@@ -39,7 +39,7 @@ const TodoItem = ({ todo, triggerConfetti }) => {
         />
         <div className="flex-1 min-w-0">
           <p
-            className={`dyna-puff break-words text-xl text-white/70 ${
+            className={`dyna-puff break-words text-xl ${
               isCompleted ? "line-through decoration-orange-400 decoration-2" : ""
             }`}
           >
