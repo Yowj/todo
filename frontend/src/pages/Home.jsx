@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import ConfettiEffect from "../components/Confetti";
 import TodoItem from "../components/TodoItem";
 import useFetchTodo from "../hooks/todo/useFetchTodo";
@@ -89,6 +89,11 @@ const Home = () => {
     setConfettiTrigger((prev) => prev + 1);
   };
 
+ const sortedTodos = useMemo(() => 
+  [...(data?.todos || [])].sort((a, b) => b.isPinned - a.isPinned),
+  [data?.todos]
+);
+
   return (
     <div className=" bg-base-200 py-8 min-h-[calc(100vh-64px)] ">
       <div className="max-w-3xl mx-auto bg-base-300 backdrop-blur-sm rounded-xl shadow-2xl p-8 transform  transition-all duration-300 shadow-secondary/50">
@@ -156,7 +161,7 @@ const Home = () => {
             {data?.todos.length === 0 ? (
               <p className="text-center text-xl font-bold">No tasks</p>
             ) : (
-              data?.todos.map((todo, index) => (
+              sortedTodos.map((todo, index) => (
                 <motion.div
                   key={todo._id}
                   layout

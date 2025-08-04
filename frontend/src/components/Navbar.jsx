@@ -15,7 +15,7 @@ const Navbar = () => {
 
   // Get current theme for icon display
   const getCurrentTheme = () => {
-    return document.documentElement.getAttribute("data-theme") || "light";
+    return document.documentElement.getAttribute("data-theme") || "dark";
   };
 
   const [currentTheme, setCurrentTheme] = React.useState(getCurrentTheme);

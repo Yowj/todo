@@ -17,6 +17,10 @@ const todoSchema = mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    isPinned: {
+      default: false,
+      type: Boolean,
+    }
   },
   {
     timestamps: true,

@@ -7,8 +7,8 @@ const useUpdateTodo = () => {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async ({ todoId, completed }) => {
-      const response = await axiosInstance.put(`/todo/update-todo/${todoId}`, {completed});
+    mutationFn: async ({ todoId, updateData}) => {
+      const response = await axiosInstance.put(`/todo/update-todo/${todoId}`, {updateData});
       return response.data;
     },
     onSuccess: (data) => {

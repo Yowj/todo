@@ -63,11 +63,11 @@ router.delete("/delete-todo/:id", async (req, res) => {
 router.put("/update-todo/:id", async (req, res) => {
   try {
     const todoId = req.params.id;
-    const { completed } = req.body; 
+    const { updateData } = req.body; 
     
     const todo = await Todo.findByIdAndUpdate(
       todoId, 
-      { completed }, 
+      updateData,
       { new: true }
     );
     

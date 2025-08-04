@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import useSignup from "../hooks/auth/useSignup";
 
 const SignupPage = () => {
-  const { signupmutate} = useSignup();
+  const { signupmutate } = useSignup();
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -28,13 +28,13 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-64px)] bg-base-200 flex items-center justify-center p-4">
-      <div className="card w-full max-w-md bg-base-100 shadow-xl rounded-3xl">
+    <div className="h-[calc(100vh-64px)] bg-base-200 flex items-center justify-center p-4 sm:p-6 md:p-8">
+      <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden items-center">
         <div className="card-body">
-          <h2 className="card-title text-2xl font-bold text-center mb-6">Create Account</h2>
+          <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
 
           <form onSubmit={handleSignup} className="space-y-4">
-            <div className="form-control">
+            <div className="form-control space-y-1">
               <label className="label">
                 <span className="label-text">Full Name</span>
               </label>
@@ -50,7 +50,7 @@ const SignupPage = () => {
               />
             </div>
 
-            <div className="form-control">
+            <div className="form-control space-y-1">
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
@@ -65,7 +65,7 @@ const SignupPage = () => {
               />
             </div>
 
-            <div className="form-control">
+            <div className="form-control space-y-1">
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
@@ -95,6 +95,25 @@ const SignupPage = () => {
               <span className="link link-hover link-primary"> Login</span>
             </Link>{" "}
           </p>
+        </div>
+        <div className="hidden lg:flex w-full lg:w-1/2 bg-primary/10 items-center justify-center">
+          <div className="max-w-md p-8">
+            {/* Illustration */}
+            <div className="relative aspect-square max-w-sm mx-auto">
+              <img
+                src="/svgs/to-do-list-animate.svg"
+                alt="To-do list illustration"
+                className="w-full h-full"
+              />
+            </div>
+
+            <div className="text-center space-y-3 mt-6">
+              <h2 className="text-xl font-semibold">Stay organized and productive</h2>
+              <p className="opacity-70">
+                Manage your tasks efficiently and achieve your goals with our intuitive to-do system
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
