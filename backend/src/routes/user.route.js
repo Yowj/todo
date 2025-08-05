@@ -31,10 +31,11 @@ router.post("/login", async (req, res) => {
     });
 
     res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000, 
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      httpOnly: true, // Prevent XSS
+      secure: process.env.NODE_ENV === "production", // HTTPS-only in prod
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Cross-site in prod
+      path: "/", // Accessible on all paths
     });
 
     res.json({
@@ -74,10 +75,11 @@ router.post("/signup", async (req, res) => {
     });
 
     res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      httpOnly: true, // Prevent XSS
+      secure: process.env.NODE_ENV === "production", // HTTPS-only in prod
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Cross-site in prod
+      path: "/", // Accessible on all paths
     });
 
     res.json({
