@@ -89,14 +89,14 @@ const Home = () => {
     setConfettiTrigger((prev) => prev + 1);
   };
 
- const sortedTodos = useMemo(() => 
-  [...(data?.todos || [])].sort((a, b) => b.isPinned - a.isPinned),
-  [data?.todos]
-);
+  const sortedTodos = useMemo(
+    () => [...(data?.todos || [])].sort((a, b) => b.isPinned - a.isPinned),
+    [data?.todos]
+  );
 
   return (
-    <div className=" bg-base-200 py-8 min-h-[calc(100vh-64px)] ">
-      <div className="max-w-3xl mx-auto bg-base-300 backdrop-blur-sm rounded-xl shadow-2xl p-8 transform  transition-all duration-300 shadow-secondary/50">
+    <div className=" bg-base-200 min-h-[calc(100vh-64px)] ">
+      <div className="max-w-3xl mx-auto bg-base-300 backdrop-blur-sm rounded-xl shadow-2xl p-8 sm:p-6 md:p-8 transform  transition-all duration-300 shadow-secondary/50">
         <motion.h1
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -104,9 +104,6 @@ const Home = () => {
           className="text-5xl font-bold text-center mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent p-4 dyna-puff"
         >
           Task Manager
-          <span className={`ml-2 text-sm ${audioReady ? "text-green-500" : "text-red-500"}`}>
-            {audioReady ? "🔊" : "🔇"}
-          </span>
         </motion.h1>
         <p className="text-center mb-8">
           {data?.todos.length === 0 ? (
@@ -117,7 +114,7 @@ const Home = () => {
           ) : (
             <>
               Time to conquer your day,{" "}
-              <span className="text-primary font-bold">{authUser?.fullName}</span>! 🎯🔥💪🏻
+              <span className="text-primary font-bold text-xl">{authUser?.fullName}! 🔥</span>
             </>
           )}
         </p>
@@ -156,7 +153,7 @@ const Home = () => {
           </motion.button>
         </form>
 
-        <div className="bg-base-200/50 p-6 rounded-xl space-y-3">
+        <div className="bg-base-200/50  sm:p-6 md:p-8 rounded-xl space-y-3">
           <AnimatePresence mode="popLayout">
             {data?.todos.length === 0 ? (
               <p className="text-center text-xl font-bold">No tasks</p>

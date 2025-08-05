@@ -33,12 +33,12 @@ const Navbar = () => {
   };
 
   return (
-    <div className=" h-16 navbar bg-base-200 shadow-lg px-14 flex items-center justify-between">
+    <div className=" h-16 navbar bg-base-200 shadow-lg p-4 sm:p-6 md:p-8 flex items-center justify-between">
       <div>
         <h1 className="text-xl font-bold text-primary">My Todo App</h1>
       </div>
 
-      <div className="flex gap-7">
+      <div className="flex gap-4">
         {/* Theme Toggle Button */}
         <button
           className="btn btn-ghost btn-circle"

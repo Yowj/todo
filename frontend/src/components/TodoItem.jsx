@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pin, X } from "lucide-react";
+import { EllipsisVertical, Pin, X } from "lucide-react";
 import useUpdateTodo from "../hooks/todo/useUpdateTodo";
 import useDeleteTodo from "../hooks/todo/useDeleteTodo";
 
@@ -37,8 +37,12 @@ const TodoItem = ({ todo, triggerConfetti }) => {
   };
 
   return (
-   <div className={`flex items-center justify-between gap-3 w-full bg-base-100/90 px-4 py-1 rounded-2xl ${isPinned ? "bg-primary/60" : ""}`}>
-      <div className="flex space-x-3 min-w-0 max-w-full overflow-hidden">
+    <div
+      className={`flex items-center justify-between gap-2 w-full bg-base-100/90 px-4 py-1 rounded-2xl ${
+        isPinned ? "bg-primary/60" : ""
+      }`}
+    >
+      <div className="flex space-x-3 min-w-0 max-w-full items-center">
         <input
           type="checkbox"
           checked={isCompleted}
@@ -55,16 +59,34 @@ const TodoItem = ({ todo, triggerConfetti }) => {
           </p>
         </div>
       </div>
-      <div>
+      <div className="hidden sm:flex items-center">
         <button className="btn btn-ghost btn-sm" onClick={() => handlePinTodo(todo._id)}>
           <Pin className=" size-5" />
         </button>
-        <button
-          className="btn btn-ghost btn-circle ml-2"
-          onClick={() => handleRemoveTodo(todo._id)}
-        >
+        <button className="btn btn-ghost btn-xs" onClick={() => handleRemoveTodo(todo._id)}>
           <X className="text-red-900 size-8" />
         </button>
+      </div>
+      <div className="flex sm:hidden items-center dropdown dropdown-end relative">
+        <div tabIndex={0} role="button" className="btn btn-ghost btn-sm">
+          <EllipsisVertical className="size-6" />
+        </div>
+
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu bg-base-100 rounded-box z-[1] p-2 shadow absolute right-0 top-full mt-1"
+        >
+          <li>
+            <button className="btn btn-ghost btn-sm" onClick={() => handlePinTodo(todo._id)}>
+              <Pin className="size-5" />
+            </button>
+          </li>
+          <li>
+            <button className="btn btn-ghost btn-sm" onClick={() => handleRemoveTodo(todo._id)}>
+              <X className="text-red-900 size-5" />
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   );
