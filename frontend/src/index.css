@@ -1,11 +1,60 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+/* Import Inter font for clean typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom font class */
 .dyna-puff {
   font-family: "DynaPuff", system-ui;
   font-optical-sizing: auto;
   font-weight: 100;
   font-style: normal;
   font-variation-settings: "wdth" 100;
+}
+
+/* Landing page specific styles */
+.landing-gradient {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(var(--b2));
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(var(--bc) / 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(var(--bc) / 0.3);
+}
+
+/* Focus outline for accessibility */
+:focus-visible {
+  outline: 2px solid oklch(var(--p));
+  outline-offset: 2px;
+}
+
+/* Selection styling */
+::selection {
+  background: oklch(var(--p) / 0.3);
 }
 
