@@ -1,15 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../../lib/axios";
-import toast from "react-hot-toast";
 
 const useAuthUser = () => {
   const authUser = useQuery({
     queryKey: ["getAuth"],
     queryFn: getAuthUser,
     retry: false,
-    onSuccess: (data) => {
-      toast.success(data.message);
-    },
   });
 
   return { isLoading: authUser.isLoading, authUser: authUser.data?.user };

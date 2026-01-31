@@ -12,7 +12,7 @@ const useSignup = () => {
     onSuccess: (data) => {
       console.log("Login successful:", data);
       toast.success(data.message);
-      queryclient.invalidateQueries(["getAuth"]);
+      queryclient.invalidateQueries({ queryKey: ["getAuth"] });
     },
     onError: (error) => {
       console.error("Login failed:", error);
