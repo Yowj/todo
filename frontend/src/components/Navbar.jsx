@@ -9,40 +9,32 @@ const Navbar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
 
-  const isLandingPage = location.pathname === "/" && !authUser;
-  const isAuthPage = location.pathname === "/login" || location.pathname === "/signup";
+  // Theme state - single source of truth
+  const [currentTheme, setCurrentTheme] = React.useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("theme") || "dark";
+    }
+    return "dark";
+  });
 
-  // Hide navbar on auth pages (they have their own styling)
-  if (isAuthPage) {
-    return null;
-  }
+  // Sync theme to DOM and localStorage
+  React.useEffect(() => {
+    document.documentElement.setAttribute("data-theme", currentTheme);
+    localStorage.setItem("theme", currentTheme);
+  }, [currentTheme]);
+
+  // Route checks
+  const isAuthPage = ["/login", "/signup"].includes(location.pathname);
+  const isLandingPage = location.pathname === "/" && !authUser;
+
+  // Early returns
+  if (isAuthPage) return null;
 
   const toggleTheme = () => {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
-    html.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
+    setCurrentTheme(prev => prev === "dark" ? "light" : "dark");
   };
 
-  const getCurrentTheme = () => {
-    return document.documentElement.getAttribute("data-theme") || "dark";
-  };
-
-  const [currentTheme, setCurrentTheme] = React.useState(getCurrentTheme);
-
-  React.useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.setAttribute("data-theme", savedTheme);
-    setCurrentTheme(savedTheme);
-  }, []);
-
-  const handleThemeToggle = () => {
-    toggleTheme();
-    setCurrentTheme(getCurrentTheme());
-  };
-
-  // Landing page navbar (dark glassmorphism style)
+  // Landing page navbar
   if (isLandingPage) {
     return (
       <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 lg:px-20 py-4">
@@ -73,7 +65,7 @@ const Navbar = () => {
     );
   }
 
-  // App navbar (for authenticated users and auth pages)
+  // App navbar (authenticated users)
   return (
     <div className="h-16 navbar bg-base-100 border-b border-base-200 px-6 md:px-12 lg:px-24 flex items-center justify-between">
       <Link to="/" className="flex items-center gap-2">
@@ -86,8 +78,8 @@ const Navbar = () => {
       <div className="flex items-center gap-2">
         <button
           className="btn btn-ghost btn-circle btn-sm"
-          onClick={handleThemeToggle}
-          title={`Switch to ${currentTheme === "dark" ? "light" : "dark"} mode`}
+          onClick={toggleTheme}
+          aria-label={`Switch to ${currentTheme === "dark" ? "light" : "dark"} mode`}
         >
           {currentTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
         </button>
@@ -96,7 +88,7 @@ const Navbar = () => {
           <button
             className="btn btn-ghost btn-sm gap-2"
             onClick={logoutmutate}
-            title="Logout"
+            aria-label="Logout"
           >
             <LogOut className="h-4 w-4" />
             <span className="hidden sm:inline">Logout</span>

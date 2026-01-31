@@ -54,12 +54,12 @@ router.post("/signup", async (req, res) => {
   try {
     const { fullName, email, password } = req.body;
 
-    if (!fullName || !email || !password) return res.json({ message: "All fields are required" });
+    if (!fullName || !email || !password) return res.status(400).json({ message: "All fields are required" });
 
     const user = await User.findOne({ email });
 
     if (user) {
-      return res.json({
+      return res.status(409).json({
         message: "User already exists",
       });
     }
