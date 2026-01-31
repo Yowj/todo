@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:dribbble.com)",
+      "WebFetch(domain:www.digitalsilk.com)",
+      "WebFetch(domain:bentogrids.com)",
+      "WebFetch(domain:www.onething.design)"
+    ]
+  }
+}
