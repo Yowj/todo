@@ -30,9 +30,9 @@ const LoadingScreen = () => {
   });
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-8">
-      {/* Subtle background grid */}
-      <div className="absolute inset-0 opacity-5">
+    <div className="fixed inset-0 z-50 flex flex-col bg-gray-900">
+      {/* Background grid */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
         <div
           className="h-full w-full"
           style={{
@@ -42,38 +42,32 @@ const LoadingScreen = () => {
         ></div>
       </div>
 
-      {/* Main loading container */}
-      <div className="bg-gray-800 border border-gray-700 rounded-lg p-8 shadow-2xl max-w-md w-full text-center relative backdrop-blur-sm">
+      {/* Main content - fills the screen */}
+      <div className="flex-1 flex flex-col items-center justify-center relative">
         {/* Anime character */}
-        <div className="mb-6 flex flex-col items-center">
-          <div className="text-5xl mb-2 animate-bounce">
-            <span className={`inline-block ${characters[currentCharacter].color}`}>
-              {characters[currentCharacter].emoji}
-            </span>
-          </div>
-          <div className="text-xs text-gray-400 animate-pulse">
-            {characters[currentCharacter].text}
-          </div>
+        <div className="text-9xl mb-6 animate-bounce">
+          <span className={`inline-block ${characters[currentCharacter].color}`}>
+            {characters[currentCharacter].emoji}
+          </span>
+        </div>
+
+        {/* Character text */}
+        <div className="text-2xl text-gray-400 animate-pulse mb-12">
+          {characters[currentCharacter].text}
         </div>
 
         {/* Loading text */}
-        <div className="mb-6">
-          <h2 className="text-xl font-semibold text-white mb-2">Loading{dots}</h2>
-          <p className="text-gray-400 text-sm">Please wait while we process your request</p>
-        </div>
-
-        {/* Status indicators */}
-        <div className="mt-6 flex justify-center space-x-2">
-          <div className="flex items-center space-x-1">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-xs text-gray-400">System Ready</span>
-          </div>
-        </div>
+        <h2 className="text-4xl font-semibold text-white mb-4">Loading{dots}</h2>
+        <p className="text-gray-400 text-lg">Please wait while we process your request</p>
       </div>
 
-      {/* Footer */}
-      <div className="mt-8 text-center">
-        <p className="text-gray-500 text-xs">Initializing application components...</p>
+      {/* Footer - pinned to bottom */}
+      <div className="p-8 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+          <span className="text-sm text-gray-400">System Ready</span>
+        </div>
+        <p className="text-gray-500 text-sm">Initializing application components...</p>
       </div>
     </div>
   );
