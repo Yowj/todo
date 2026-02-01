@@ -1,18 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 import axiosInstance from "../../lib/axios";
 import toast from "react-hot-toast";
 
 const useLogin = () => {
   const queryclient = useQueryClient();
+  const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: async ({ email, password }) => {
       const response = await axiosInstance.post("/user/login", { email, password });
       return response.data;
     },
     onSuccess: (data) => {
-      console.log("Login successful:", data);
       toast.success(data.message);
       queryclient.invalidateQueries({ queryKey: ["getAuth"] });
+      navigate("/dashboard");
     },
     onError: (error) => {
       console.error("Login failed:", error);

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import ConfettiEffect from "../components/Confetti";
 import TodoItem from "../components/TodoItem";
+import Navbar from "../components/Navbar";
 import useFetchTodo from "../hooks/todo/useFetchTodo";
 import useAddTodo from "../hooks/todo/useAddTodo";
 import { motion, AnimatePresence } from "framer-motion";
@@ -95,7 +96,9 @@ const Home = () => {
   );
 
   return (
-    <div className="bg-base-100 min-h-[calc(100vh-64px)] py-8 px-6 md:px-12 lg:px-24">
+    <>
+      <Navbar />
+      <div className="bg-base-100 min-h-[calc(100vh-64px)] py-8 px-6 md:px-12 lg:px-24">
       <div className="max-w-2xl mx-auto">
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
@@ -178,6 +181,7 @@ const Home = () => {
 
       <ConfettiEffect trigger={confettiTrigger} />
     </div>
+    </>
   );
 };
 

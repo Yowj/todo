@@ -12,6 +12,32 @@ const LandingPage = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[150px]" />
       </div>
 
+      {/* Landing Navbar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 lg:px-20 py-4">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <Check className="w-5 h-5 text-white" />
+            </div>
+            <span className="font-bold text-xl text-white">TaskFlow</span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/login"
+              className="px-5 py-2.5 text-sm font-medium text-white/70 hover:text-white transition-colors"
+            >
+              Log in
+            </Link>
+            <Link
+              to="/signup"
+              className="px-5 py-2.5 text-sm font-medium bg-white text-black rounded-full hover:bg-white/90 transition-colors"
+            >
+              Sign up
+            </Link>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-20 pt-20">
         <div className="max-w-7xl mx-auto w-full">

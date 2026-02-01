@@ -3,23 +3,17 @@ import Home from "./pages/Home";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import LandingPage from "./pages/LandingPage";
-import useAuthUser from "./hooks/auth/useAuth";
-import LoadingScreen from "./components/LoadingScreen";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
-  const { authUser, isLoading } = useAuthUser();
-
-  if (isLoading) return <LoadingScreen />;
-
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={authUser ? <Home /> : <LandingPage />} />
-        <Route path="/signup" element={!authUser ? <SignupPage /> : <Navigate to="/" />} />
-        <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/dashboard" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="*" element={<Navigate to="/" />} />
+    </Routes>
   );
 };
 
