@@ -2,22 +2,30 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "../../lib/axios";
 import toast from "react-hot-toast";
 
-
 const useDeleteTodo = () => {
   const queryClient = useQueryClient();
 
-const mutation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (todoId) => {
       const response = await axiosInstance.delete(`/todo/delete-todo/${todoId}`);
       return response.data;
     },
-    onSuccess: (data) => {
-      // Invalidate todos list after successful delete
-      queryClient.invalidateQueries({ queryKey: ["fetchTodo"] });
-      toast.success(data.message);
+    onMutate: async (todoId) => {
+      await queryClient.cancelQueries({ queryKey: ["fetchTodo"] });
+      const previous = queryClient.getQueryData(["fetchTodo"]);
+      queryClient.setQueryData(["fetchTodo"], (old) => ({
+        ...old,
+        todos: old.todos.filter((t) => t._id !== todoId),
+      }));
+      toast.success("Todo deleted!");
+      return { previous };
     },
-    onError: (error) => {
-      console.error("Delete todo error:", error);
+    onError: (_err, _todoId, context) => {
+      queryClient.setQueryData(["fetchTodo"], context.previous);
+      toast.error("Failed to delete.");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["fetchTodo"] });
     },
   });
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { EllipsisVertical, Pin, X } from "lucide-react";
 import useUpdateTodo from "../hooks/todo/useUpdateTodo";
 import useDeleteTodo from "../hooks/todo/useDeleteTodo";
@@ -9,8 +9,8 @@ const TodoItem = ({ todo, triggerConfetti }) => {
 
   const [isCompleted, setIsCompleted] = useState(todo.completed);
   const [isPinned, setIsPinned] = useState(todo.isPinned);
-  const removedAudio = new Audio("/sounds/deleted.mp3");
-  const completedAudio = new Audio("/sounds/success.mp3");
+  const removedAudio = useRef(new Audio("/sounds/deleted.mp3"));
+  const completedAudio = useRef(new Audio("/sounds/success.mp3"));
 
   const handleCheckboxClick = (id) => {
     const newCompletedState = !isCompleted;
@@ -19,14 +19,14 @@ const TodoItem = ({ todo, triggerConfetti }) => {
     updateTodoMutate({ todoId: id, updateData: { completed: true } });
 
     if (newCompletedState === true) {
-      completedAudio.play();
+      completedAudio.current.play();
       triggerConfetti();
     }
   };
 
   const handleRemoveTodo = (id) => {
+    removedAudio.current.play();
     deleteTodoMutate(id);
-    removedAudio.play();
   };
 
   const handlePinTodo = (id) => {
@@ -42,8 +42,8 @@ const TodoItem = ({ todo, triggerConfetti }) => {
         isPinned
           ? "bg-primary/5 border border-primary/20"
           : isCompleted
-          ? "bg-base-200/30"
-          : "bg-base-200/50 hover:bg-base-200/70"
+            ? "bg-base-200/30"
+            : "bg-base-200/50 hover:bg-base-200/70"
       }`}
     >
       <button
@@ -52,12 +52,18 @@ const TodoItem = ({ todo, triggerConfetti }) => {
           isCompleted
             ? "bg-success border-success"
             : isPinned
-            ? "border-primary hover:bg-primary/10"
-            : "border-base-content/20 hover:border-primary"
+              ? "border-primary hover:bg-primary/10"
+              : "border-base-content/20 hover:border-primary"
         }`}
       >
         {isCompleted && (
-          <svg className="w-3 h-3 text-success-content" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+          <svg
+            className="w-3 h-3 text-success-content"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={3}
+          >
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         )}
@@ -66,9 +72,7 @@ const TodoItem = ({ todo, triggerConfetti }) => {
       <div className="flex-1 min-w-0">
         <p
           className={`break-words transition-all ${
-            isCompleted
-              ? "line-through text-base-content/40"
-              : "text-base-content"
+            isCompleted ? "line-through text-base-content/40" : "text-base-content"
           }`}
         >
           {todo?.title}
