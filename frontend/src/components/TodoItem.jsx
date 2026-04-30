@@ -9,8 +9,10 @@ const TodoItem = ({ todo, triggerConfetti }) => {
 
   const [isCompleted, setIsCompleted] = useState(todo.completed);
   const [isPinned, setIsPinned] = useState(todo.isPinned);
-  const removedAudio = useRef(new Audio("/sounds/deleted.mp3"));
-  const completedAudio = useRef(new Audio("/sounds/success.mp3"));
+  const removedAudio = useRef(null);
+  const completedAudio = useRef(null);
+  if (!removedAudio.current) removedAudio.current = new Audio("/sounds/deleted.mp3");
+  if (!completedAudio.current) completedAudio.current = new Audio("/sounds/success.mp3");
 
   const handleCheckboxClick = (id) => {
     const newCompletedState = !isCompleted;
